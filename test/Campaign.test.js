@@ -34,5 +34,47 @@ describe('Campaigns',()=>{
     it('deploys a factory and a campaign',()=>{
         assert.ok(factory.options.address);
         assert.ok(factory.options.address);        
-    })
+    });
+
+    it('marks caller as the campaign manager', async()=>{
+        const manager = await campaign.methods.manager().call();
+        assert.equal(accounts[0], manager);
+    });
+
+    it('allows pople to contribute money and mark them as approver', async()=>{
+        await campaign.methods.contribute().send({
+            from : accounts[1],
+            value : '200'
+        });
+        const isApprover = campaign.methods.approvers(accounts[1]).call();
+        assert(isApprover);
+    });
+
+    it('requires a minimum contribution', async()=>{
+        try{
+            await campaign.methods.contribute.send({
+                from: accounts[1],
+                value : '50'
+            });
+            assert(false);
+        }
+        catch(err){
+            assert(err);
+        }
+    });
+
+    it('allows manager to create a payment request', async()=>{
+        await campaign.methods
+        .createRequest('Buy batteries','100',accounts[1])
+        .send({
+            from : accounts[0],
+            gas : '1000000'
+        });
+        const request = await campaign.methods.requests(0).call();
+        assert('Buy batteries', request.description);
+    });
+
+    
+
+
 })

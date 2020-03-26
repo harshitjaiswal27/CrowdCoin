@@ -74,7 +74,41 @@ describe('Campaigns',()=>{
         assert('Buy batteries', request.description);
     });
 
-    
+    it('processes request', async()=>{
+        await campaign.methods.contribute().send({
+            from: accounts[0],
+            value : web3.utils.toWei('10','ether')
+        });
+        
+        await campaign.methods
+        .createRequest('Buy batteries',web3.utils.toWei('5','ether'),accounts[1])
+        .send({
+            from : accounts[0],
+            gas : '1000000'
+        });
 
+        await campaign.methods.approveRequest(0).send({
+            from : accounts[0],
+            gas : '1000000'
+        });
 
-})
+        let initialBalance = await web3.eth.getBalance(accounts[1]);
+        initialBalance = web3.utils.fromWei(initialBalance, 'ether');
+        initialBalance = parseFloat(initialBalance);
+
+        await campaign.methods.finalizeRequest(0).send({
+            from : accounts[0],
+            gas : '1000000'
+        });
+
+        let finalBalance = await web3.eth.getBalance(accounts[1]);
+        finalBalance = web3.utils.fromWei(finalBalance, 'ether');
+        finalBalance = parseFloat(finalBalance);
+
+        console.log('Initial Balance : ' +initialBalance);
+        console.log('Final Balance : '+ finalBalance);
+
+        assert(5,finalBalance - initialBalance);
+    });
+
+});

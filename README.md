@@ -1,2 +1,2 @@
-# Kickstarter-CrowdFunding-Campaign
-An ethereum based dApp.
+# CrowdCoin
+An ethereum based crowdfunding dApp.

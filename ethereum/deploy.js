@@ -4,7 +4,7 @@ const compiledFactory = require('./build/CampaignFactory.json')
 
 const provider = new  HDWalletProvider(
     '#PASTE YOUR ACCOUNT MNEMONIC SEED WORDS HERE#',
-    'https://rinkeby.infura.io/v3/#PASTE YOUR INFURA API KEY HERE#'
+    'https://rinkeby.infura.io/v3/a02e8aeac81f41cca74aa1260ad4fde2'
 );
 
 const web3 = new Web3(provider);

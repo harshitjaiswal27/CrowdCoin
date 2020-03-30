@@ -6,7 +6,7 @@ Same as crowd funding in the real world, you can create campaigns requiring mini
 
 ### To Run the Project :
 
-Clone the repository by git clone `https://github.com/harshitjaiswal27/CrowdCoin.git`
+Clone the repository by doing `git clone "https://github.com/harshitjaiswal27/CrowdCoin.git"`
 
 #### `cd CrowdCoin`
 

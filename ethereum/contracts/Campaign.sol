@@ -13,7 +13,7 @@ contract Campaign{
     address public manager;
     uint public minimumContribution;
     mapping(address=>bool) public approvers;
-    uint approversCount;
+    uint public approversCount;
     Request[] public requests;
     
     modifier restricted(){

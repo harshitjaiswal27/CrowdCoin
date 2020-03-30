@@ -9,7 +9,8 @@ class RequestIndex extends Component{
     static async getInitialProps(props){
         const {address} = props.query;
         const campaign = Campaign(address);
-        const requestCount = await campaign.methods.getRequestsCount().call();
+        const requestCount = await campaign.methods.getRequestCount().call();
+        const approversCount = await campaign.methods.approversCount().call();
 
         const requests = await Promise.all(
             Array(parseInt(requestCount)).fill().map((element,index)=>{
@@ -18,7 +19,7 @@ class RequestIndex extends Component{
         );
 
         return {
-            address , requests, requestCount
+            address , requests, requestCount, approversCount
         };
     }
 
@@ -26,9 +27,11 @@ class RequestIndex extends Component{
         return this.props.requests.map((request,index)=>{
             return (
                 <RequestRow
-                    key={Index}
+                    key={index}
+                    id={index}
                     address={this.props.address}
                     request={request}
+                    approversCount={this.props.approversCount}
                 />
             )
         })
@@ -41,7 +44,7 @@ class RequestIndex extends Component{
                 <h3>Requests</h3>
                 <Link route={`/campaigns/${this.props.address}/requests/new`}>
                     <a>
-                        <Button icon="add" content="Add Request" floated="right" primary></Button>
+                        <Button icon="add" content="Add Request"  primary></Button>
                     </a>
                 </Link>
                 <Table> 
